@@ -1,5 +1,4 @@
 const _ = require("lodash"); 
-const { from } = require("nodemailer/lib/mime-node/le-windows");
 
 const chunkMethod = ()=>{
     const monthNames = ["January", "February", "March", "April", "May", "June",

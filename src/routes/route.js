@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const obj = require('./logger/logger'); 
+const logger = require('../logger/logger'); 
 const dateStatus = require('../util/helper');
 const validators = require('../validator/formatter');
 const lodashModule = require('../lodash/lodash'); 
 
 router.get('/test-me', (request, response) =>{
     response.send('My first ever api!')
-    obj.printMessage('Welcome to my application. I am "Prakash" and a part of FunctionUp Thorium cohort.'); 
-    console.log(obj.endPoint);
+    console.log(logger.welcome());
 
     console.log("==== Question 2 ===="); 
 
