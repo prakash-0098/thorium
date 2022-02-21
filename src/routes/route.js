@@ -34,6 +34,10 @@ router.get('/hello', (request, response)=>{
     console.log("===== uninon ======");
     
     lodashModule.uninonMethod();
+
+    console.log("===== fromPairs ======");
+    
+    lodashModule.fromPairsMethod();
 }); 
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const _ = require("lodash"); 
+const { from } = require("nodemailer/lib/mime-node/le-windows");
 
 const chunkMethod = ()=>{
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -17,8 +18,20 @@ const uninonMethod = ()=>{
     console.log(_.union(arr1, arr2, arr3, arr4, arr5)); 
 }
 
+const fromPairsMethod = ()=>{
+    const data = [
+        ["horror","The Shining"],
+        ["drama","Titanic"],
+        ["thriller","Shutter Island"],
+        ["fantasy","Pans Labyrinth"]
+
+    ]; 
+    console.log(_.fromPairs(data)); 
+}
+
 module.exports = {
     chunkMethod: chunkMethod,
     tailMethod: tailMethod, 
-    uninonMethod: uninonMethod
+    uninonMethod: uninonMethod,
+    fromPairsMethod: fromPairsMethod
 }
