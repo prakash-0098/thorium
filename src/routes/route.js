@@ -6,7 +6,7 @@ router.get('/students/:name', function(req, res) {
     console.log(studentName)
     res.send(studentName)
 })
-
+console.log("wleo"); //// 
 
 
 
