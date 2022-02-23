@@ -66,4 +66,63 @@ router.post('/player', (request, response)=>{
     }); 
 }); 
 
+router.post('/player/:playerName/booking/:bookingId', (request, response)=>{
+    const playerName = request.params.playerName; 
+    const bookingId = request.params.bookingId; 
+    const bookingData = request.body; 
+    bookingData.bookingNumber = Number(bookingId); 
+    // player.forEach((data)=>{
+    //     if(data.name == playerName){
+    //         data.bookings.forEach((book)=>{
+    //             if(book.bookingNumber == bookingId){
+    //                 response.send("Booking number already exist !"); 
+    //             }
+    //             else{
+    //                 data.bookings.push(bookingData); 
+    //                 response.send(player);
+    //             }
+    //         }); 
+    //     }
+    //     else{
+    //         response.send("Player name not found !"); 
+    //     }
+    // }); 
+    let playerNameStatus = "", bookingIdStatus = ""; 
+    for(let i = 0; i < player.length; i++){
+        if(player[i].name == playerName){
+            playerNameStatus = i; 
+            break; 
+        }
+        else{
+            playerNameStatus = null; 
+        }
+    }
+    if(playerNameStatus != null){
+        if(player[playerNameStatus].bookings.length == 0){
+            bookingIdStatus = player[playerNameStatus].bookings;
+        }
+        else{
+            for(let i = 0; i < player[playerNameStatus].bookings.length; i++){
+                if(player[playerNameStatus].bookings[i].bookingNumber == bookingId){
+                    bookingIdStatus = null; 
+                    break; 
+                }
+                else{
+                    bookingIdStatus = player[playerNameStatus].bookings;  
+                }
+            }
+        }
+        if(bookingIdStatus != null){
+            bookingIdStatus.push(bookingData);
+            response.send(player); 
+        }
+        else{
+            response.send("Booking number already exist !"); 
+        }
+    }
+    else{
+        response.send("Player name not found !"); 
+    }
+}); 
+
 module.exports = router;
