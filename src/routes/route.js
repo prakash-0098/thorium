@@ -55,15 +55,23 @@ const player = [
 
 router.post('/player', (request, response)=>{
     const playerData = request.body; 
-    player.forEach((data)=>{
-        if(data.name != playerData.name){
-            player.push(playerData);
-            response.send(player);
+    let playerNameStatus = null;
+    for(let i = 0; i < player.length; i++){
+        if(player[i].name == playerData.name){
+            playerNameStatus = true; 
+            break; 
         }
         else{
-            response.send("Player name already exist !"); 
+            playerNameStatus = false; 
         }
-    }); 
+    } 
+    if(!playerNameStatus){
+        player.push(playerData);
+        response.send(player);
+    }
+    else{
+        response.send("Player name is already exist !"); 
+    }
 }); 
 
 router.post('/player/:playerName/booking/:bookingId', (request, response)=>{
@@ -71,23 +79,9 @@ router.post('/player/:playerName/booking/:bookingId', (request, response)=>{
     const bookingId = request.params.bookingId; 
     const bookingData = request.body; 
     bookingData.bookingNumber = Number(bookingId); 
-    // player.forEach((data)=>{
-    //     if(data.name == playerName){
-    //         data.bookings.forEach((book)=>{
-    //             if(book.bookingNumber == bookingId){
-    //                 response.send("Booking number already exist !"); 
-    //             }
-    //             else{
-    //                 data.bookings.push(bookingData); 
-    //                 response.send(player);
-    //             }
-    //         }); 
-    //     }
-    //     else{
-    //         response.send("Player name not found !"); 
-    //     }
-    // }); 
+
     let playerNameStatus = "", bookingIdStatus = ""; 
+    
     for(let i = 0; i < player.length; i++){
         if(player[i].name == playerName){
             playerNameStatus = i; 
