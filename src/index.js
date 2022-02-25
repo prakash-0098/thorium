@@ -20,3 +20,12 @@ app.use('/', route);
 app.listen(process.env.PORT || 3000, function () {
     console.log('Express app running on port ' + (process.env.PORT || 3000))
 });
+
+
+// mongoose.connect("mongodb+srv://prakash:MD8GREj5x0NTptFX@cluster0.fg71d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+//     useNewUrlParser: true, 
+//     useUnifiedTopology: true
+// }).then((success)=>{
+//     console.log("Mongoose connected successfully !"); 
+// }).catch((error)=>{
+//     console.log(error); 
