@@ -8,11 +8,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzotr.mongodb.net/Pritesh87698-DB?retryWrites=true&w=majority", {
-    useNewUrlParser: true
-})
-.then( () => console.log("MongoDb is connected"))
-.catch ( err => console.log(err) )
+mongoose.connect("mongodb+srv://prakash:MD8GREj5x0NTptFX@cluster0.fg71d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+}).then((success)=>{
+    console.log("MongoDb connected !"); 
+}).catch((error)=>{
+    console.log(error); 
+}); 
 
 app.use('/', route);
 
@@ -20,12 +23,3 @@ app.use('/', route);
 app.listen(process.env.PORT || 3000, function () {
     console.log('Express app running on port ' + (process.env.PORT || 3000))
 });
-
-
-// mongoose.connect("mongodb+srv://prakash:MD8GREj5x0NTptFX@cluster0.fg71d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
-//     useNewUrlParser: true, 
-//     useUnifiedTopology: true
-// }).then((success)=>{
-//     console.log("Mongoose connected successfully !"); 
-// }).catch((error)=>{
-//     console.log(error); 
