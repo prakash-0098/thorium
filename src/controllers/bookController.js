@@ -35,7 +35,10 @@ const getBooksInYear = async (request, response)=>{
 
 const getParticularBooks = async (request, response)=>{
     const data = request.body; 
-    const dataRes = await BookModel.find(data); 
+    const dataRes = await BookModel.find(data).select({
+        'bookName': 1,
+        '_id': 0
+    }); 
     response.send({
         msg: dataRes
     });
