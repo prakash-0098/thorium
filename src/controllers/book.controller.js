@@ -1,4 +1,4 @@
-const { response } = require('express');
+const _ = require('lodash'); 
 const bookSchema = require('../models/book.model'); 
 const authorSchema = require('../models/author.model'); 
 
@@ -21,23 +21,25 @@ const createBook = async (request, response)=>{
 }
 
 const checkAuthorByRange = async (request, response)=>{
-    const startRange = 50, endRange = 100; 
     const dataRes = await bookSchema.find({
-       $and: [
-           {
-               price: {
-                   $gte: startRange
-               }
-           },
-           {
-               price:{
-                   $lte: endRange
-               }
-           }
-       ]
+        price: {
+            $gte: 50,
+            $lte: 100
+        }
     }); 
+    const allId = _.uniq(dataRes.map(data => data.author_id));
+    const authorNameArr = []; 
+    for(let i = 0; i < allId.length; i++){
+        const outputData = await authorSchema.find({
+            author_id: allId[i]
+        }).select({
+            author_name: 1,
+            _id: 0
+        }); 
+        authorNameArr.push(outputData); 
+    }
     response.send({
-        'msg': dataRes
+        'msg': authorNameArr.flat()
     }); 
 }
 

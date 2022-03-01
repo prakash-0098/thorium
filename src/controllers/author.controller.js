@@ -38,14 +38,21 @@ const updatePrice = async (request, respone)=>{
             $set:{
                 price: 100
             }
+        },
+        {
+            new: true
         }
     ); 
     const author_id = dataRes.author_id; 
+    const updatedPrice = dataRes.price; 
     const authorRes = await authorSchema.find({
         author_id: author_id
     }).select({
         author_name: 1,
         _id: 0
+    }); 
+    authorRes.push({
+        'updatedPrice': updatedPrice
     }); 
     respone.send({
         'msg': authorRes
