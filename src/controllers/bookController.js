@@ -1,9 +1,11 @@
 const mongoose = require('mongoose'); 
+const _ = require('lodash'); 
 const ObjectId = mongoose.Types.ObjectId; 
 
 const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel"); 
 const publisherModel = require('../models/publisherModel'); 
+const { update } = require('lodash');
 
 const createBook = async (request, response)=>{
     const data = request.body; 
@@ -57,9 +59,62 @@ const getAllBooks = async (request, response)=>{
     });  
 }
 
+const book = async (request, response)=>{
+    const dataRes = await bookModel.find().populate('publisher').select({
+        publisher: 1,
+        _id: 0
+    }); 
+    const publisherList = _.compact(_.uniq(dataRes.map((data)=>{
+        if(data.publisher.name == "Penguin" || data.publisher.name == "HarperCollins"){
+            return data.publisher._id; 
+        }
+    }))); 
+    if(!publisherList.length == 2){
+        response.send({
+            'msg': "Both Penguin and HarperCollins Publisher compulsary"
+        }); 
+    }
+    for(let i = 0; i < publisherList.length; i++){
+        const updateRes = await bookModel.updateOne(
+            {
+                'publisher': ObjectId(publisherList[i])
+            },
+            {
+                $set: {
+                    isHardCover: true
+                }
+            }
+        );
+        response.send({
+            'msg': updateRes
+        }); 
+    } 
+ 
+}
+
+const increasePrice = async (request, response)=>{
+    const dataRes = await bookModel.updateMany(
+        {
+            ratings: {
+                $gt: 3.5
+            }
+        },
+        {
+            $inc:{
+                price: +10
+            }
+        }
+    ); 
+    response.send({
+        'msg': dataRes
+    });
+}
+
 module.exports = {
     createBook: createBook,
-    getAllBooks: getAllBooks
+    getAllBooks: getAllBooks,
+    book: book,
+    increasePrice: increasePrice
 }
 
 
