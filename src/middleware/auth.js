@@ -10,12 +10,22 @@ const auth = (request, response, next) => {
         });
     }
     const decodedToken = jwt.verify(token, '12345');
-    if (!decodedToken)
-        return res.send({
+    if (!decodedToken){
+        return response.send({
             status: false,
             msg: "token is invalid"
         });
-    next();
+    }
+    else{
+        if(decodedToken.userId != userId){
+            return response.send({
+                status: false,
+                msg: "User not authorized !"
+            });
+        }
+        next();
+    }
 }
+
 
 module.exports.auth = auth; 
